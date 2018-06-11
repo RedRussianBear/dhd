@@ -16,28 +16,33 @@
     font-style: normal;
 }
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary, time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
     vertical-align: baseline;
 }
 
+input, label, select, button, textarea {
+	margin:.5em;
+	border:0;
+	padding:.25em;
+	display:inline-block;
+	vertical-align:middle;
+	white-space:normal;
+	background:none;
+	line-height:1;
+    color: inherit;
+    font-family: inherit;
+}
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display: block;
 }
 
@@ -89,6 +94,69 @@ html {
 body {
     position: absolute;
     top: 0;
-    font-family: 'Columbus', sans-serif;
+    font-family: 'Columbus', serif;
+    font-size: 11pt;
     width: calc(100% + calc(100vw - 100%));
+
+    background-color: black;
+    color: white;
+}
+
+h1 {
+    font-family: 'Morpheus', serif;
+    font-size: 36pt;
+    line-height: 1.2;
+}
+
+h2 {
+    font-family: 'Celestia Antiqua Std', serif;
+    font-weight: bold;
+    font-size: 24pt;
+    line-height: 1.3;
+}
+
+p {
+    line-height: 1.3;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    color: rgb(131, 7, 7);
+}
+
+#content {
+    width: 90%;
+    max-width: 1020px;
+    padding: 2em;
+    margin: 2em auto;
+    border: solid 2px white;
+}
+
+#container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.field input[type=password],input[type=text]{
+    border: none;
+    border-bottom: solid 2px white;
+}
+
+.block {
+    display: block;
+
+    border: solid 2px white;
+    padding: 1em;
+
+    text-align: center;
 }

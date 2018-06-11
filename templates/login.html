@@ -1,0 +1,26 @@
+<div id="container">
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="field">
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="alert">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% for error in form.non_field_errors %}
+            <div class="alert">
+                {{ error|escape }}
+            </div>
+        {% endfor %}
+
+        <div class="field">
+            <input type="submit" value="Sign In">
+        </div>
+    </form>
+</div>

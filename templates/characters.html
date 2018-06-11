@@ -1,0 +1,17 @@
+<h2>Hello, {{ user.first_name }}...</h2><br>
+
+<div id="container">
+    {% for character in characters %}
+        <div class="block">
+            <h2>{{ character.name }}</h2>
+            <p>{{ character.rank }}</p>
+            <p>
+                <a href="{% url 'character' character.id %}">edit</a>
+            </p>
+        </div>
+    {% endfor %}
+
+    <div class="block">
+        <a href="{% url 'character' 'new' %}"><h2>Create New</h2></a>
+    </div>
+</div>
