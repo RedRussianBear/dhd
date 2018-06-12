@@ -1,0 +1,13 @@
+from django import template
+
+register = template.Library()
+
+
+@register.filter
+def get(h, key):
+    return h[key]
+
+
+@register.filter
+def get_label(h, key):
+    return h[key].label

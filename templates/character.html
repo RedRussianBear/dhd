@@ -1,3 +1,380 @@
-<div id="container">
+{% load dh_filter %}
 
+<div id="container">
+    <form method="post" action="{% url 'character' character_id %}" class="character">
+        {% csrf_token %}
+        <h1>{{ character_form.name }}</h1>
+
+        <div class="row main_row">
+            <div class="column top">
+                {% for row in character_form.groups.top %}
+                    <div class="row">
+                        {% for field in row %}
+
+                            <div style="flex: {{ field.1 }}" class="row">
+                                <label>
+                                    {{ character_form|get_label:field.0 }}
+                                </label>
+                                <div style="flex: 1;">
+                                    {{ character_form|get:field.0 }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row main_row">
+            <div class="column" style="flex: 1;">
+                <div class="section">
+                    {{ skill_form_set.management_form }}
+                    <h2>Skills</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td>Bas/Adv</td>
+                            <td>Skilled</td>
+                            <td>+10</td>
+                            <td>+20</td>
+                            <td>&#x2718;</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for skill in skill_form_set %}
+                            <tr>
+                                {{ skill.id }}
+                                <td class="label">{{ skill.name }}</td>
+                                <td class="cell">{{ skill.type }}</td>
+                                <td class="cell">{{ skill.skilled }}</td>
+                                <td class="cell">{{ skill.trained }}</td>
+                                <td class="cell">{{ skill.mastered }}</td>
+                                <td>{{ skill.DELETE }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="section">
+                    {{ psychic_power_form_set.management_form }}
+                    <h2>Psychic Powers</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td>Threshold</td>
+                            <td>Focus Time</td>
+                            <td>Sustain</td>
+                            <td>Range</td>
+                            <td>&#x2718;</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for power in psychic_power_form_set %}
+                            <tr>
+                                {{ power.id }}
+                                <td class="label">{{ power.name }}</td>
+                                <td class="cell">{{ power.threshold }}</td>
+                                <td class="cell">{{ power.focus_time }}</td>
+                                <td class="cell">{{ power.sustain }}</td>
+                                <td class="cell">{{ power.range }}</td>
+                                <td>{{ power.DELETE }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="column" style="flex: 0;">
+                {% for field in character_form.groups.characteristics %}
+                    <div class="block characteristic">
+                        <label>{{ character_form|get_label:field }}</label>
+                        {{ character_form|get:field }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="column" style="flex: 1;">
+                <div class="section">
+                    {{ talent_form_set.management_form }}
+                    <h2>Talents</h2>
+                    <table>
+                        <tbody>
+                        {% for talent in talent_form_set %}
+                            <tr>
+                                {{ talent.id }}
+                                <td class="label">{{ talent.name }}</td>
+                                <td>{{ talent.DELETE }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="section">
+                    {{ trait_form_set.management_form }}
+                    <h2>Traits</h2>
+                    <table>
+                        <tbody>
+                        {% for trait in trait_form_set %}
+                            <tr>
+                                {{ trait.id }}
+                                <td class="label">{{ trait.name }}</td>
+                                <td>{{ trait.DELETE }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="section">
+                    {{ mutation_form_set.management_form }}
+                    <h2>Mutations</h2>
+                    <table>
+                        <tbody>
+                        {% for mutation in mutation_form_set %}
+                            <tr>
+                                {{ mutation.id }}
+                                <td class="label">{{ mutation.name }}</td>
+                                <td>{{ mutation.DELETE }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row main_row">
+            <div class="column" style="flex: 1; margin-right: .25em;">
+                <div class="section">
+                    {{ melee_weapon_form_set.management_form }}
+                    <h2>Melee Weapons</h2>
+                    {% for weapon in melee_weapon_form_set %}
+                        <div class="column weapon">
+                            {{ weapon.id }}
+                            {% for row in character_form.melee_weapon %}
+                                <div class="row">
+                                    {% for field in row %}
+                                        <label>
+                                            {% if field in character_form.abbr %}
+                                                {{ character_form.abbr|get:field }}
+                                            {% else %}
+                                                {{ weapon|get_label:field }}
+                                            {% endif %}
+                                        </label>
+                                        <div class="input">{{ weapon|get:field }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="section">
+                    {{ ranged_weapon_form_set.management_form }}
+                    <h2>Ranged Weapons</h2>
+                    {% for weapon in ranged_weapon_form_set %}
+                        <div class="column weapon">
+                            {{ weapon.id }}
+                            {% for row in character_form.ranged_weapon %}
+                                <div class="row">
+                                    {% for field in row %}
+                                        <label>
+                                            {% if field in character_form.abbr %}
+                                                {{ character_form.abbr|get:field }}
+                                            {% else %}
+                                                {{ weapon|get_label:field }}
+                                            {% endif %}
+                                        </label>
+                                        <div class="input">{{ weapon|get:field }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="column" style="flex: 1; margin-left: .25em;">
+                <div class="section">
+                    {{ item_form_set.management_form }}
+                    <h2>Inventory</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <td>Item</td>
+                            <td>location</td>
+                            <td>wt</td>
+                            <td>&#x2718;</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in item_form_set %}
+                            <tr>
+                                {{ item.id }}
+                                <td class="label">{{ item.name }}</td>
+                                <td>{{ item.location }}</td>
+                                <td>{{ item.weight }}</td>
+                                <td>{{ item.DELETE }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <label>Wealth</label> {{ character_form.wealth }} <label>Thrones</label>
+                </div>
+
+                <div class="section">
+                    {{ cybernetic_form_set.management_form }}
+                    <h2>Cybernetics</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>effects</td>
+                            <td>&#x2718;</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for cybernetic in cybernetic_form_set %}
+                            <tr>
+                                {{ cybernetic.id }}
+                                <td class="label">{{ cybernetic.name }}</td>
+                                <td>{{ cybernetic.effects }}</td>
+                                <td>{{ cybernetic.DELETE }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="row main_row">
+            <div class="block" style="flex: 1;">
+                <h2>Experience</h2>
+                <h3>{{ character_form.xp }}</h3>
+                <h3>{{ character_form.xp_spent }}</h3>
+            </div>
+
+            <div class="block" style="flex: 1;">
+                <h2>Fate</h2>
+                <h3>{{ character_form.fate }}</h3>
+                <p>{{ character_form.background }}</p>
+            </div>
+
+            <div class="block" style="flex: 1;">
+                <h2>Damage</h2>
+                <p>{{ character_form.tot_wounds }}</p>
+                <p>{{ character_form.cur_wounds }}</p>
+                <p>{{ character_form.injuries }}</p>
+            </div>
+
+            <div class="block" style="flex: 1;">
+                {{ disorder_form_set.management_form }}
+                <h2>Insanity</h2>
+                <h3>{{ character_form.insanity }}</h3>
+                <p>{{ character_form.degree_of_madness }}</p>
+                <p>Disorders</p>
+                <table>
+                    <tbody>
+                    {% for disorder in disorder_form_set %}
+                        <tr>
+                            {{ disorder.id }}
+                            <td>{{ disorder.name }}</td>
+                            <td>{{ disorder.DELETE }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="block" style="flex: 1;">
+                {{ malignancy_form_set.management_form }}
+                <h2>Corruption</h2>
+                <h3>{{ character_form.corruption }}</h3>
+                <p>{{ character_form.degree_of_corruption }}</p>
+                <p>Malignancies</p>
+                <table>
+                    <tbody>
+                    {% for malignancy in malignancy_form_set %}
+                        <tr>
+                            {{ malignancy.id }}
+                            <td>{{ malignancy.name }}</td>
+                            <td>{{ malignancy.DELETE }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if character_form.errors or skill_form_set.errors or trait_form_set.errors or talent_form_set.errors or cybernetic_form_set.errors or psychic_power_form_set.errors or disorder_form_set.errors or malignancy_form_set.errors or mutation_form_set.errors or item_form_set.errors or melee_weapon_form_set.errors or ranged_weapon_form_set.errors %}
+            <div id="form-error">
+                <p>The operation could not be performed because one or more error(s) occurred.<br/>Please
+                    resubmit the
+                    form after making the following changes:</p>
+                {{ character_form.non_field_errors }}
+                {{ skill_form_set.non_form_errors }}
+                {{ trait_form_set.non_form_errors }}
+                {{ talent_form_set.non_form_errors }}
+                {{ cybernetic_form_set.non_form_errors }}
+                {{ psychic_power_form_set.non_form_errors }}
+                {{ disorder_form_set.non_form_errors }}
+                {{ malignancy_form_set.non_form_errors }}
+                {{ mutation_form_set.non_form_errors }}
+                {{ item_form_set.non_form_errors }}
+                {{ melee_weapon_form_set.non_form_errors }}
+                {{ ranged_weapon_form_set.non_form_errors }}
+                <ul>
+                    {% for field in character_form %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in skill_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in trait_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in talent_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in cybernetic_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in psychic_power_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in disorder_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in malignancy_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in mutation_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in item_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in melee_weapon_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                    {% for field in ranged_weapon_form_set %}
+                        <li>{{ field.errors|striptags }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div style="text-align: right; width: 100%;">
+            <input type="submit" value="Save"><br>
+            <a href="{% url 'select_character' %}">Exit</a>
+        </div>
+    </form>
 </div>
