@@ -1,4 +1,9 @@
-<h2>Hello, {{ user.first_name }}...</h2><br>
+<div style="float: right">
+    <a href="{% url 'settings' %}">Settings</a>
+</div>
+
+<h1>Hello, {{ user.first_name }}...</h1>
+
 
 <div id="container">
     {% for character in characters %}

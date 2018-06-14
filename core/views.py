@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 
 from .models import LoginForm, Character, CharacterForm, SkillFormSet, TraitFormSet, TalentFormSet, CyberneticFormSet, \
     PsychicPowerFormSet, DisorderFormSet, MalignancyFormSet, MutationFormSet, ItemFormSet, MeleeWeaponFormSet, \
-    RangedWeaponFormSet
+    RangedWeaponFormSet, \
+    PasswordChangeForm
 
 
 def main(request):
@@ -140,3 +141,19 @@ def edit_character(request, character_id):
     }
 
     return render(request, 'character.html', context)
+
+
+@login_required
+def settings(request):
+    if request.method == 'POST':
+        password_change_form = PasswordChangeForm(request.POST, prefix='password_change')
+        if password_change_form.is_valid():
+            request.user.set_password(password_change_form.cleaned_data['new_password'])
+            request.user.save()
+
+    password_change_form = PasswordChangeForm(prefix='password_change')
+
+    context = {
+        'password_change_form': password_change_form
+    }
+    return render(request, 'settings.html', context)

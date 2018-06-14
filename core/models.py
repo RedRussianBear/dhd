@@ -274,6 +274,28 @@ class CharacterForm(forms.ModelForm):
         super(CharacterForm, self).__init__(*args, **kwargs)
 
 
+class PasswordChangeForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput, label='New Password')
+    new_password_confirm = forms.CharField(widget=forms.PasswordInput, label='Confirm New Password')
+
+    def __init__(self, *args, **kwargs):
+        for field in self.base_fields.values():
+            field.widget.attrs['placeholder'] = field.label
+
+        super(PasswordChangeForm, self).__init__(*args, **kwargs)
+
+    def is_valid(self):
+        valid = super(PasswordChangeForm, self).is_valid()
+        if not valid:
+            return False
+
+        if not self.cleaned_data['new_password'] == self.cleaned_data['new_password_confirm']:
+            self.add_error('new_password_confirm', 'Password and confirmation don not match.')
+            return False
+
+        return True
+
+
 SkillFormSet = inlineformset_factory(Character, Skill, fields=('name', 'type', 'skilled', 'trained', 'mastered'))
 TraitFormSet = inlineformset_factory(Character, Trait, fields=('name', 'description'))
 TalentFormSet = inlineformset_factory(Character, Talent, fields=('name', 'description'))

@@ -1,0 +1,32 @@
+<h1>Settings</h1>
+
+<div id="container">
+    <form action="{% url 'settings' %}" method="post">
+        {% csrf_token %}
+        <h2>Change Password</h2>
+        {% for field in password_change_form %}
+            <div class="field">
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="alert">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% for error in password_change_form.non_field_errors %}
+            <div class="alert">
+                {{ error|escape }}
+            </div>
+        {% endfor %}
+
+        <div class="field">
+            <input name="submit-password-change" type="submit" value="Change Password">
+        </div>
+    </form>
+
+    <div style="text-align: right; width: 100%;">
+        <a href="{% url 'select_character' %}">Exit</a>
+    </div>
+</div>
