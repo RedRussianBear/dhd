@@ -201,6 +201,28 @@ class RangedWeapon(Weapon):
 
 
 class CharacterForm(forms.ModelForm):
+    basic_skills = [
+        'Awareness (Per)',
+        'Barter (Fel)',
+        'Carouse (T)',
+        'Charm (Fel)',
+        'Climb (Str)',
+        'Concealment (Ag)',
+        'Contortionist (Ag)',
+        'Deceive (Fel)',
+        'Disguise (Fel)',
+        'Dodge (Ag)',
+        'Evaluate (Int)',
+        'Gamble (Int)',
+        'Inquiry (Fel)',
+        'Intimidate (Str)',
+        'Logic (Int)',
+        'Scrutiny (Per)',
+        'Search (Per)',
+        'Silent Move (Ag)',
+        'Swim (Str)'
+    ]
+
     groups = {
         'top': [[('race', 1), ('home_world', 2), ('career', 2), ('rank', 2)],
                 [('gender', 1), ('build', 1), ('height', 1), ('weight', 1)],
@@ -296,7 +318,8 @@ class PasswordChangeForm(forms.Form):
         return True
 
 
-SkillFormSet = inlineformset_factory(Character, Skill, fields=('name', 'type', 'skilled', 'trained', 'mastered'))
+SkillFormSet = inlineformset_factory(Character, Skill, fields=('name', 'type', 'skilled', 'trained', 'mastered'),
+                                     min_num=19, extra=3)
 TraitFormSet = inlineformset_factory(Character, Trait, fields=('name', 'description'))
 TalentFormSet = inlineformset_factory(Character, Talent, fields=('name', 'description'))
 CyberneticFormSet = inlineformset_factory(Character, Cybernetic, fields=('name', 'effects'))

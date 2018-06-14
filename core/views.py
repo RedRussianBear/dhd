@@ -112,7 +112,9 @@ def edit_character(request, character_id):
             character = Character.objects.get(code=character_id)
             character_form = CharacterForm(instance=character)
 
-        skill_form_set = SkillFormSet(instance=character)
+        skill_form_set = SkillFormSet(instance=character, initial=[
+            {'name': skill, 'type': 'B', 'skilled': False, 'trained': False, 'mastered': False} for skill in
+            CharacterForm.basic_skills])
         trait_form_set = TraitFormSet(instance=character)
         talent_form_set = TalentFormSet(instance=character)
         cybernetic_form_set = CyberneticFormSet(instance=character)
