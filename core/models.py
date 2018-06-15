@@ -3,8 +3,6 @@ from django.db import models
 from django import forms
 from hashlib import sha256
 
-from django.forms import inlineformset_factory
-
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=64)
@@ -316,21 +314,3 @@ class PasswordChangeForm(forms.Form):
             return False
 
         return True
-
-
-SkillFormSet = inlineformset_factory(Character, Skill, fields=('name', 'type', 'skilled', 'trained', 'mastered'),
-                                     min_num=19, extra=3)
-TraitFormSet = inlineformset_factory(Character, Trait, fields=('name', 'description'))
-TalentFormSet = inlineformset_factory(Character, Talent, fields=('name', 'description'))
-CyberneticFormSet = inlineformset_factory(Character, Cybernetic, fields=('name', 'effects'))
-PsychicPowerFormSet = inlineformset_factory(Character, PsychicPower,
-                                            fields=('name', 'effects', 'threshold', 'focus_time', 'sustain', 'range'))
-DisorderFormSet = inlineformset_factory(Character, Disorder, fields=('name', 'severity', 'description'))
-MalignancyFormSet = inlineformset_factory(Character, Malignancy, fields=('name', 'description'))
-MutationFormSet = inlineformset_factory(Character, Mutation, fields=('name', 'description'))
-ItemFormSet = inlineformset_factory(Character, Item, fields=('name', 'location', 'weight'))
-MeleeWeaponFormSet = inlineformset_factory(Character, MeleeWeapon, fields=(
-    'name', 'size_class', 'damage', 'dmg_type', 'penetration', 'special', 'weight'), max_num=3)
-RangedWeaponFormSet = inlineformset_factory(Character, RangedWeapon, fields=(
-    'name', 'size_class', 'damage', 'dmg_type', 'penetration', 'special', 'weight', 'effective_range', 'semi_auto',
-    'full_auto', 'clip', 'reload'), max_num=3)

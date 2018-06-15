@@ -41,7 +41,7 @@ $(document).ready(function () {
             e.preventDefault();
         }
 
-        function addRow(e) {
+        function addRow() {
             let template = $(this).closest('table').find('tbody tr:first').clone().wrap('<div/>').parent().html();
             let n = $(this).closest('table').find('tbody tr').length;
 
@@ -49,9 +49,55 @@ $(document).ready(function () {
             let n_row = $.parseHTML(new_row,);
 
             $(n_row).find('input,select').val('');
-            $(this).closest('div.section').find("[id$=TOTAL_FORMS]").val(n + 1);
+            $(this).closest('div').find("[id$=TOTAL_FORMS]").val(n + 1);
 
             $(this).closest('table').find('tbody').append(n_row);
+
+            let delete_hooks = $('a.delete');
+            delete_hooks.unbind();
+            delete_hooks.click(deleteRow);
+        }
+
+        function renumber(start) {
+            let rows = $(start).closest('tr').nextAll('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                let row = $(rows[i]);
+                let regexp = /[a-z_]+-([0-9]+)-[a-z_]+/gi;
+                let n = parseInt(regexp.exec(row.find('input[type=hidden]').attr('name'))[1]);
+
+                let inputs = row.find('input');
+                for (let j = 0; j < inputs.length; j++) {
+                    let input = $(inputs[j]);
+
+                    input.attr('name', input.attr('name').replace('' + n, '' + (n - 1)));
+                    input.attr('id', input.attr('id').replace('' + n, '' + (n - 1)));
+                }
+            }
+
+            $(start).closest('div').find("[id$=TOTAL_FORMS]").val(parseInt($(start).closest('div').find("[id$=TOTAL_FORMS]").val()) - 1);
+            $(start).closest('tr').remove();
+        }
+
+        function deleteRow(e) {
+            e.preventDefault();
+
+            let self = this;
+
+            if ($(this).closest('tr').find('input[type=hidden]').val() !== "") {
+                $.ajax({
+                    type: 'GET',
+                    url: '/delete/' + $(this).attr('type') + '/' + $(this).closest('tr').find('input[type=hidden]').val() + '/',
+                    success: function (data) {
+                        $(self).closest('div').find("[id$=INITIAL_FORMS]").val(parseInt($(self).closest('div').find("[id$=INITIAL_FORMS]").val()) - 1);
+                        renumber(self);
+                    }
+                });
+            }
+            else {
+                renumber(self);
+            }
+
         }
 
         function addHooks() {
@@ -60,6 +106,10 @@ $(document).ready(function () {
             let add = $($.parseHTML('<a style="font-size: 24pt; display: block; text-align: center;">+</a>',));
             add.click(addRow);
             $('table').append(add);
+
+            let delete_hooks = $('a.delete');
+            delete_hooks.unbind();
+            delete_hooks.click(deleteRow);
         }
 
 

@@ -1,11 +1,31 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
-from .models import LoginForm, Character, CharacterForm, SkillFormSet, TraitFormSet, TalentFormSet, CyberneticFormSet, \
-    PsychicPowerFormSet, DisorderFormSet, MalignancyFormSet, MutationFormSet, ItemFormSet, MeleeWeaponFormSet, \
-    RangedWeaponFormSet, \
+from django.forms import inlineformset_factory
+
+from .models import LoginForm, Character, CharacterForm, Skill, Trait, Talent, Cybernetic, PsychicPower, Disorder, \
+    Malignancy, Mutation, Item, MeleeWeapon, RangedWeapon, \
     PasswordChangeForm
+
+SkillFormSet = inlineformset_factory(Character, Skill, fields=('name', 'type', 'skilled', 'trained', 'mastered'),
+                                     min_num=19, extra=3)
+TraitFormSet = inlineformset_factory(Character, Trait, fields=('name', 'description'))
+TalentFormSet = inlineformset_factory(Character, Talent, fields=('name', 'description'))
+CyberneticFormSet = inlineformset_factory(Character, Cybernetic, fields=('name', 'effects'))
+PsychicPowerFormSet = inlineformset_factory(Character, PsychicPower,
+                                            fields=(
+                                                'name', 'effects', 'threshold', 'focus_time', 'sustain', 'range'))
+DisorderFormSet = inlineformset_factory(Character, Disorder, fields=('name', 'severity', 'description'))
+MalignancyFormSet = inlineformset_factory(Character, Malignancy, fields=('name', 'description'))
+MutationFormSet = inlineformset_factory(Character, Mutation, fields=('name', 'description'))
+ItemFormSet = inlineformset_factory(Character, Item, fields=('name', 'location', 'weight'))
+MeleeWeaponFormSet = inlineformset_factory(Character, MeleeWeapon, fields=(
+    'name', 'size_class', 'damage', 'dmg_type', 'penetration', 'special', 'weight'), max_num=3)
+RangedWeaponFormSet = inlineformset_factory(Character, RangedWeapon, fields=(
+    'name', 'size_class', 'damage', 'dmg_type', 'penetration', 'special', 'weight', 'effective_range', 'semi_auto',
+    'full_auto', 'clip', 'reload'), max_num=3)
 
 
 def main(request):
@@ -107,14 +127,15 @@ def edit_character(request, character_id):
         if character_id == 'new':
             character = Character()
             character_form = CharacterForm()
+            initial_skills = [{'name': skill, 'type': 'B', 'skilled': False, 'trained': False, 'mastered': False} for
+                              skill in CharacterForm.basic_skills]
 
         else:
             character = Character.objects.get(code=character_id)
             character_form = CharacterForm(instance=character)
+            initial_skills = []
 
-        skill_form_set = SkillFormSet(instance=character, initial=[
-            {'name': skill, 'type': 'B', 'skilled': False, 'trained': False, 'mastered': False} for skill in
-            CharacterForm.basic_skills])
+        skill_form_set = SkillFormSet(instance=character, initial=initial_skills)
         trait_form_set = TraitFormSet(instance=character)
         talent_form_set = TalentFormSet(instance=character)
         cybernetic_form_set = CyberneticFormSet(instance=character)
@@ -159,3 +180,28 @@ def settings(request):
         'password_change_form': password_change_form
     }
     return render(request, 'settings.html', context)
+
+
+@login_required
+def delete_object(request, object_type, object_id):
+    switch = {
+        'skill': Skill,
+        'trait': Trait,
+        'talent': Talent,
+        'cybernetic': Cybernetic,
+        'psychic_power': PsychicPower,
+        'disorder': Disorder,
+        'malignancy': Malignancy,
+        'mutation': Mutation,
+        'item': Item,
+        'melee_weapon': MeleeWeapon,
+        'ranged_weapon': RangedWeapon,
+    }
+
+    to_delete = get_object_or_404(switch[object_type], pk=object_id)
+
+    if to_delete.character.user == request.user:
+        to_delete.delete()
+        return HttpResponse(content='Deleted.', status=200)
+
+    return HttpResponse(status='403')
