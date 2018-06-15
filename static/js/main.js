@@ -29,7 +29,7 @@ $(document).ready(function () {
                 type: 'GET',
                 url: $(this).attr('href'),
                 success: function (data) {
-                    let gap = Math.max(Date.now() - sent, 0);
+                    let gap = Math.max(500 - (Date.now() - sent), 0);
                     window.setTimeout(function () {
                         content.html(data);
                         addHooks();
