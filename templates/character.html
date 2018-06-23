@@ -246,8 +246,26 @@
                     </table>
                 </div>
 
-            </div>
+                <div class="section">
+                    <h2>Armor</h2>
+                    <div class="row" style="margin-bottom: 2em; flex: 1;">
+                        <label>Armor Type:</label> {{ character_form.armor_type }}
+                    </div>
+                    {% for row in character_form.groups.armor %}
+                        <div class="row">
+                            {% for field in row %}
+                                <div class="block armor">
+                                    <label>
+                                        {{ character_form.abbr|get:field }}
+                                    </label>
+                                    {{ character_form|get:field }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
 
+            </div>
 
         </div>
 

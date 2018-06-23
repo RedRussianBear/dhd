@@ -53,7 +53,7 @@ $(document).ready(function () {
 
             $(this).closest('table').find('tbody').append(n_row);
 
-            let delete_hooks = $('a.delete');
+            let delete_hooks = n_row.find('a.delete');
             delete_hooks.unbind();
             delete_hooks.click(deleteRow);
         }
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'GET',
                     url: '/delete/' + $(this).attr('type') + '/' + $(this).closest('tr').find('input[type=hidden]').val() + '/',
-                    success: function (data) {
+                    success: function () {
                         $(self).closest('div').find("[id$=INITIAL_FORMS]").val(parseInt($(self).closest('div').find("[id$=INITIAL_FORMS]").val()) - 1);
                         renumber(self);
                     }
@@ -103,7 +103,7 @@ $(document).ready(function () {
         function addHooks() {
             $('form').submit(formSubmit);
             $('a').click(linkClick);
-            let add = $($.parseHTML('<a style="font-size: 24pt; display: block; text-align: center;">+</a>',));
+            let add = $($.parseHTML('<a style="font-size: 24pt; display: block; text-align: center; width: 100%;">+</a>',));
             add.click(addRow);
             $('table').append(add);
 

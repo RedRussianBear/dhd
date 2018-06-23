@@ -50,6 +50,14 @@ class Character(models.Model):
     willpower = models.IntegerField()
     fellowship = models.IntegerField()
 
+    armor_type = models.CharField(max_length=128, blank=True)
+    armor_head = models.IntegerField()
+    armor_body = models.IntegerField()
+    armor_right_arm = models.IntegerField()
+    armor_left_arm = models.IntegerField()
+    armor_right_leg = models.IntegerField()
+    armor_left_leg = models.IntegerField()
+
     xp = models.IntegerField()
     xp_spent = models.IntegerField()
 
@@ -231,7 +239,10 @@ class CharacterForm(forms.ModelForm):
                             'perception', 'willpower', 'fellowship'],
         'insanity': ['insanity', 'degree_of_madness'],
         'corruption': ['corruption', 'degree_of_corruption'],
-        'wounds': ['tot_wounds', 'cur_wounds']
+        'wounds': ['tot_wounds', 'cur_wounds'],
+        'armor': [['armor_head'],
+                  ['armor_right_arm', 'armor_body', 'armor_left_arm'],
+                  ['armor_right_leg', 'armor_left_leg']]
     }
 
     melee_weapon = [
@@ -266,8 +277,14 @@ class CharacterForm(forms.ModelForm):
         'reload': 'Rld',
         'weight': 'Wt',
         'semi_auto': 'S/',
-        'full_auto': '/'
+        'full_auto': '/',
 
+        'armor_head': 'Head',
+        'armor_body': 'Body',
+        'armor_right_arm': 'R. Arm',
+        'armor_left_arm': 'L. Arm',
+        'armor_right_leg': 'R. Leg',
+        'armor_left_leg': 'L. Leg'
     }
 
     class Meta:
@@ -277,7 +294,8 @@ class CharacterForm(forms.ModelForm):
                   'weapon_skill', 'ballistic_skill', 'strength', 'toughness', 'agility', 'intelligence', 'perception',
                   'willpower', 'fellowship', 'xp', 'xp_spent', 'fate', 'insanity', 'corruption', 'wealth',
                   'degree_of_madness', 'degree_of_corruption', 'tot_wounds', 'cur_wounds', 'background', 'notes',
-                  'injuries']
+                  'injuries', 'armor_head', 'armor_body', 'armor_left_arm', 'armor_right_arm', 'armor_left_leg',
+                  'armor_right_leg', 'armor_type']
         widgets = {
             'background': forms.Textarea(attrs={'cols': 10, 'rows': 10}),
             'injuries': forms.Textarea(attrs={'cols': 10, 'rows': 10}),

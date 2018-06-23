@@ -210,6 +210,8 @@ td.cell option {
     width: auto;
 }
 
+/* PAGE LAYOUT */
+
 #content {
     width: 90%;
     max-width: 1200px;
@@ -246,6 +248,42 @@ td.cell option {
 
     flex-flow: row wrap;
     justify-content: center;
+}
+
+.row {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: stretch;
+
+}
+
+.column {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    flex: 1;
+}
+
+.section {
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.main_row {
+    margin-bottom: 2.5em;
 }
 
 input[type=submit]:hover {
@@ -293,12 +331,6 @@ input[type=checkbox]:checked:after {
     padding-right: .5em;
 }
 
-.weapon label {
-    display: block;
-    font-size: 11pt;
-    flex: 0;
-}
-
 .top .row {
     border-bottom: solid 1px white;
 }
@@ -317,13 +349,7 @@ td.label input[type=text] {
     margin: 0 auto 0 0;
 }
 
-.block input[type=number] {
-    width: 5em;
-    border: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-}
+/* CHARACTERISTICS */
 
 .characteristic input[type=number] {
     font-size: 14pt;
@@ -336,6 +362,21 @@ td.label input[type=text] {
     margin-bottom: 1em;
 }
 
+/* ARMOR */
+
+.armor {
+    margin-bottom: 2.5em;
+    font-size: 12pt;
+}
+
+.armor label {
+    display: block;
+    font-size: 11pt;
+    margin-bottom: 1em;
+}
+
+/* BLOCK */
+
 .block {
     display: block;
 
@@ -346,41 +387,15 @@ td.label input[type=text] {
     text-align: center;
 }
 
-.row {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: stretch;
-
+.block input[type=number] {
+    width: 4em;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
 }
 
-.column {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-
-    flex-flow: column nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
-
-    flex: 1;
-}
-
-.section {
-    width: 100%;
-    margin-bottom: 2em;
-}
-
-.main_row {
-    margin-bottom: 2.5em;
-}
+/* WEAPON */
 
 .weapon {
     margin-bottom: 1em;
