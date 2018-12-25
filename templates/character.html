@@ -1,12 +1,14 @@
 {% load dh_filter %}
+{% load static %}
 
 <div id="container">
+
     <form method="post" action="{% url 'character' character_id %}" class="character">
         {% csrf_token %}
-        <h1>{{ character_form.name }}</h1>
+        <h1 id="name">{{ character_form.name }}</h1>
 
         <div class="row main_row">
-            <div class="column top">
+            <div id="description" class="column top">
                 {% for row in character_form.groups.top %}
                     <div class="row">
                         {% for field in row %}
@@ -26,7 +28,7 @@
         </div>
 
         <div class="row main_row">
-            <div class="column" style="flex: 1;">
+            <div id="skills_powers" class="column" style="flex: 1;">
                 <div class="section">
                     {{ skill_form_set.management_form }}
                     <h2>Skills</h2>
@@ -85,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="column" style="flex: 0;">
+            <div id="characteristics" class="column" style="flex: 0;">
                 {% for field in character_form.groups.characteristics %}
                     <div class="block characteristic">
                         <label>{{ character_form|get_label:field }}</label>
@@ -94,7 +96,7 @@
                 {% endfor %}
             </div>
 
-            <div class="column" style="flex: 1;">
+            <div id="talents_traits_mutations" class="column" style="flex: 1;">
                 <div class="section">
                     {{ talent_form_set.management_form }}
                     <h2>Talents</h2>
@@ -141,11 +143,10 @@
                     </table>
                 </div>
             </div>
-
         </div>
 
         <div class="row main_row">
-            <div class="column" style="flex: 1; margin-right: .25em;">
+            <div id="weapons" class="column" style="flex: 1; margin-right: .25em;">
                 <div class="section">
                     {{ melee_weapon_form_set.management_form }}
                     <h2>Melee Weapons</h2>
@@ -196,7 +197,7 @@
 
             </div>
 
-            <div class="column" style="flex: 1; margin-left: .25em;">
+            <div id="inventory" class="column" style="flex: 1; margin-left: .25em;">
                 <div class="section">
                     {{ item_form_set.management_form }}
                     <h2>Inventory</h2>
@@ -269,7 +270,7 @@
 
         </div>
 
-        <div class="row main_row">
+        <div id="details" class="row main_row">
             <div class="block" style="flex: 1;">
                 <h2>Experience</h2>
                 <h3>{{ character_form.xp }}</h3>
@@ -387,7 +388,23 @@
         {% endif %}
 
         <div style="text-align: right; width: 100%;">
-            <input type="submit" value="Save"><br>
+            <input type="submit" value="Save" id="save"><br>
+            {% if character_id == "new" %}
+                <a id="next" style="font-size: 16pt;">Next</a><br><br>
+                <style>
+                    form > div > .column {
+                        display: none;
+                    }
+
+                    #details {
+                        display: none;
+                    }
+
+                    #save {
+                        display: none;
+                    }
+                </style>
+            {% endif %}
             <a href="{% url 'select_character' %}">Exit</a>
         </div>
     </form>

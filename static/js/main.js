@@ -23,16 +23,20 @@ $(document).ready(function () {
 
         function linkClick(e) {
             content.fadeOut(500);
+            let href = $(this).attr('href');
 
             let sent = Date.now();
             $.ajax({
                 type: 'GET',
-                url: $(this).attr('href'),
+                url: href,
                 success: function (data) {
                     let gap = Math.max(500 - (Date.now() - sent), 0);
                     window.setTimeout(function () {
                         content.html(data);
                         addHooks();
+                        if(href == '/character/new/'){
+                            $.getScript('/static/js/new_character.js')
+                        }
                         content.fadeIn(500);
                     }, gap);
                 }
@@ -93,8 +97,7 @@ $(document).ready(function () {
                         renumber(self);
                     }
                 });
-            }
-            else {
+            } else {
                 renumber(self);
             }
 
@@ -121,7 +124,6 @@ $(document).ready(function () {
             });
 
         });
-
 
     }
 );
