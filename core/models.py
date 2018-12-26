@@ -110,7 +110,7 @@ class Skill(CharacterElement):
         ('A', 'A'),
     ]
 
-    type = models.CharField(max_length=1, choices=TYPE, default='')
+    type = models.CharField(max_length=1, choices=TYPE, default='', blank=True)
     skilled = models.BooleanField()
     trained = models.BooleanField()
     mastered = models.BooleanField()
@@ -158,8 +158,8 @@ class Mutation(CharacterElement):
 
 
 class Item(CharacterElement):
-    location = models.CharField(max_length=32)
-    weight = models.FloatField()
+    location = models.CharField(max_length=32, blank=True)
+    weight = models.FloatField(blank=True)
 
 
 class Weapon(CharacterElement):
