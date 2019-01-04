@@ -181,7 +181,7 @@ class Weapon(CharacterElement):
     ]
 
     size_class = models.CharField(max_length=1, choices=CLASS, default='', blank=True)
-    damage = models.CharField(max_length=16)
+    damage = models.CharField(max_length=16, blank=True)
     dmg_type = models.CharField(max_length=1, choices=TYPE, default='', blank=True)
     penetration = models.IntegerField(blank=True)
 
