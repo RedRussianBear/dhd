@@ -111,17 +111,17 @@ def edit_character(request, character_id):
         else:
             character = Character()
 
-            skill_form_set = SkillFormSet(instance=character)
-            trait_form_set = TraitFormSet(instance=character)
-            talent_form_set = TalentFormSet(instance=character)
-            cybernetic_form_set = CyberneticFormSet(instance=character)
-            psychic_power_form_set = PsychicPowerFormSet(instance=character)
-            disorder_form_set = DisorderFormSet(instance=character)
-            malignancy_form_set = MalignancyFormSet(instance=character)
-            mutation_form_set = MutationFormSet(instance=character)
-            item_form_set = ItemFormSet(instance=character)
-            melee_weapon_form_set = MeleeWeaponFormSet(instance=character)
-            ranged_weapon_form_set = RangedWeaponFormSet(instance=character)
+            skill_form_set = SkillFormSet(request.POST, instance=character)
+            trait_form_set = TraitFormSet(request.POST, instance=character)
+            talent_form_set = TalentFormSet(request.POST, instance=character)
+            cybernetic_form_set = CyberneticFormSet(request.POST, instance=character)
+            psychic_power_form_set = PsychicPowerFormSet(request.POST, instance=character)
+            disorder_form_set = DisorderFormSet(request.POST, instance=character)
+            malignancy_form_set = MalignancyFormSet(request.POST, instance=character)
+            mutation_form_set = MutationFormSet(request.POST, instance=character)
+            item_form_set = ItemFormSet(request.POST, instance=character)
+            melee_weapon_form_set = MeleeWeaponFormSet(request.POST, instance=character)
+            ranged_weapon_form_set = RangedWeaponFormSet(request.POST, instance=character)
 
     else:
         if character_id == 'new':

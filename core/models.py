@@ -111,9 +111,9 @@ class Skill(CharacterElement):
     ]
 
     type = models.CharField(max_length=1, choices=TYPE, default='', blank=True)
-    skilled = models.BooleanField()
-    trained = models.BooleanField()
-    mastered = models.BooleanField()
+    skilled = models.BooleanField(blank=True)
+    trained = models.BooleanField(blank=True)
+    mastered = models.BooleanField(blank=True)
 
 
 class Trait(CharacterElement):
@@ -131,10 +131,10 @@ class Cybernetic(CharacterElement):
 class PsychicPower(CharacterElement):
     effects = models.CharField(max_length=512, blank=True)
 
-    threshold = models.IntegerField()
-    focus_time = models.FloatField()
-    sustain = models.BooleanField()
-    range = models.IntegerField()
+    threshold = models.IntegerField(blank=True)
+    focus_time = models.FloatField(blank=True)
+    sustain = models.BooleanField(blank=True)
+    range = models.IntegerField(blank=True)
 
 
 class Disorder(CharacterElement):
@@ -145,7 +145,7 @@ class Disorder(CharacterElement):
         ('A', 'Acute'),
     ]
 
-    severity = models.CharField(max_length=1, choices=SEVERITY, default='')
+    severity = models.CharField(max_length=1, choices=SEVERITY, default='', blank=True)
     description = models.CharField(max_length=512, blank=True)
 
 
@@ -180,13 +180,13 @@ class Weapon(CharacterElement):
         ('I', 'Impact'),
     ]
 
-    size_class = models.CharField(max_length=1, choices=CLASS, default='')
+    size_class = models.CharField(max_length=1, choices=CLASS, default='', blank=True)
     damage = models.CharField(max_length=16)
-    dmg_type = models.CharField(max_length=1, choices=TYPE, default='')
-    penetration = models.IntegerField()
+    dmg_type = models.CharField(max_length=1, choices=TYPE, default='', blank=True)
+    penetration = models.IntegerField(blank=True)
 
     special = models.CharField(max_length=64, blank=True)
-    weight = models.FloatField()
+    weight = models.FloatField(blank=True)
 
     class Meta:
         abstract = True
@@ -199,11 +199,11 @@ class MeleeWeapon(Weapon):
 class RangedWeapon(Weapon):
     effective_range = models.IntegerField(blank=True)
 
-    semi_auto = models.IntegerField()
-    full_auto = models.IntegerField()
+    semi_auto = models.IntegerField(blank=True)
+    full_auto = models.IntegerField(blank=True)
 
-    clip = models.IntegerField()
-    reload = models.FloatField()
+    clip = models.IntegerField(blank=True)
+    reload = models.FloatField(blank=True)
 
 
 class CharacterForm(forms.ModelForm):
