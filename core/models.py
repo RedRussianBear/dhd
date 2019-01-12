@@ -131,10 +131,10 @@ class Cybernetic(CharacterElement):
 class PsychicPower(CharacterElement):
     effects = models.CharField(max_length=512, blank=True)
 
-    threshold = models.IntegerField(blank=True)
-    focus_time = models.FloatField(blank=True)
+    threshold = models.IntegerField(blank=True, null=True)
+    focus_time = models.FloatField(blank=True, null=True)
     sustain = models.BooleanField(blank=True)
-    range = models.IntegerField(blank=True)
+    range = models.IntegerField(blank=True, null=True)
 
 
 class Disorder(CharacterElement):
@@ -159,7 +159,7 @@ class Mutation(CharacterElement):
 
 class Item(CharacterElement):
     location = models.CharField(max_length=32, blank=True)
-    weight = models.FloatField(blank=True)
+    weight = models.FloatField(blank=True, null=True)
 
 
 class Weapon(CharacterElement):
@@ -183,10 +183,10 @@ class Weapon(CharacterElement):
     size_class = models.CharField(max_length=1, choices=CLASS, default='', blank=True)
     damage = models.CharField(max_length=16, blank=True)
     dmg_type = models.CharField(max_length=1, choices=TYPE, default='', blank=True)
-    penetration = models.IntegerField(blank=True)
+    penetration = models.IntegerField(blank=True, null=True)
 
     special = models.CharField(max_length=64, blank=True)
-    weight = models.FloatField(blank=True)
+    weight = models.FloatField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -197,13 +197,13 @@ class MeleeWeapon(Weapon):
 
 
 class RangedWeapon(Weapon):
-    effective_range = models.IntegerField(blank=True)
+    effective_range = models.IntegerField(blank=True, null=True)
 
-    semi_auto = models.IntegerField(blank=True)
-    full_auto = models.IntegerField(blank=True)
+    semi_auto = models.IntegerField(blank=True, null=True)
+    full_auto = models.IntegerField(blank=True, null=True)
 
-    clip = models.IntegerField(blank=True)
-    reload = models.FloatField(blank=True)
+    clip = models.IntegerField(blank=True, null=True)
+    reload = models.FloatField(blank=True, null=True)
 
 
 class CharacterForm(forms.ModelForm):
