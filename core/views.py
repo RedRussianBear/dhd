@@ -70,7 +70,7 @@ def edit_character(request, character_id):
             character_form = CharacterForm(request.POST)
         else:
             character = Character.objects.get(code=character_id)
-            if request.user != character.user and request.user.is_staff:
+            if request.user != character.user and not request.user.is_staff:
                 return HttpResponse(status='403')
             character_form = CharacterForm(request.POST, instance=Character.objects.get(code=character_id))
 
@@ -138,7 +138,7 @@ def edit_character(request, character_id):
 
         else:
             character = Character.objects.get(code=character_id)
-            if request.user != character.user and request.user.is_staff:
+            if request.user != character.user and not request.user.is_staff:
                 return HttpResponse(status='403')
 
             character_form = CharacterForm(instance=character)
