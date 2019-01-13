@@ -56,7 +56,10 @@ def log_in(request):
 
 @login_required
 def select_character(request):
-    characters = Character.objects.filter(user=request.user)
+    if request.user.is_staff:
+        characters = Character.objects.all()
+    else:
+        characters = Character.objects.filter(user=request.user)
     return render(request, 'characters.html', {'characters': characters})
 
 
@@ -66,6 +69,9 @@ def edit_character(request, character_id):
         if character_id == 'new':
             character_form = CharacterForm(request.POST)
         else:
+            character = Character.objects.get(code=character_id)
+            if request.user != character.user and request.user.is_staff:
+                return HttpResponse(status='403')
             character_form = CharacterForm(request.POST, instance=Character.objects.get(code=character_id))
 
         if character_form.is_valid():
@@ -132,6 +138,9 @@ def edit_character(request, character_id):
 
         else:
             character = Character.objects.get(code=character_id)
+            if request.user != character.user and request.user.is_staff:
+                return HttpResponse(status='403')
+
             character_form = CharacterForm(instance=character)
             initial_skills = []
 
