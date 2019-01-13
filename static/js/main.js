@@ -94,7 +94,7 @@ $(document).ready(function () {
                     url: '/delete/' + $(this).attr('type') + '/' + $(this).closest('tr').find('input[type=hidden]').val() + '/',
                     success: function () {
                         $(self).closest('div').find("[id$=INITIAL_FORMS]").val(parseInt($(self).closest('div').find("[id$=INITIAL_FORMS]").val()) - 1);
-                        $(self).closest('div').find("[id$=MIN_NUM_FORMS]").val(Math.max(parseInt($(self).closest('div').find("[id$=INITIAL_FORMS]").val()) - 1), 0);
+                        $(self).closest('div').find("[id$=MIN_NUM_FORMS]").val(Math.max(parseInt($(self).closest('div').find("[id$=INITIAL_FORMS]").val()) - 1, 0));
                         renumber(self);
                     }
                 });
