@@ -10,7 +10,7 @@ from .models import LoginForm, Character, CharacterForm, Skill, Trait, Talent, C
     PasswordChangeForm
 
 SkillFormSet = inlineformset_factory(Character, Skill, fields=('name', 'type', 'skilled', 'trained', 'mastered'),
-                                     min_num=19, extra=3)
+                                     extra=3)
 TraitFormSet = inlineformset_factory(Character, Trait, fields=('name', 'description'))
 TalentFormSet = inlineformset_factory(Character, Talent, fields=('name', 'description'))
 CyberneticFormSet = inlineformset_factory(Character, Cybernetic, fields=('name', 'effects'))
