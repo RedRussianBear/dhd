@@ -34,7 +34,7 @@ $(document).ready(function () {
                     window.setTimeout(function () {
                         content.html(data);
                         addHooks();
-                        if(href == '/character/new/'){
+                        if (href === '/character/new/') {
                             $.getScript('/static/js/new_character.js')
                         }
                         content.fadeIn(500);
@@ -103,6 +103,32 @@ $(document).ready(function () {
 
         }
 
+        function delete_character_hook(e) {
+            if (confirm("Are you totally sure? This is irreversible.")) {
+                content.fadeOut(500);
+                let href = $(this).attr('href');
+
+                let sent = Date.now();
+                $.ajax({
+                    type: 'GET',
+                    url: href,
+                    success: function (data) {
+                        let gap = Math.max(500 - (Date.now() - sent), 0);
+                        window.setTimeout(function () {
+                            content.html(data);
+                            addHooks();
+                            if (href === '/character/new/') {
+                                $.getScript('/static/js/new_character.js')
+                            }
+                            content.fadeIn(500);
+                        }, gap);
+                    }
+                });
+            }
+
+            e.preventDefault();
+        }
+
         function addHooks() {
             $('form').submit(formSubmit);
             $('a').click(linkClick);
@@ -113,6 +139,10 @@ $(document).ready(function () {
             let delete_hooks = $('a.delete');
             delete_hooks.unbind();
             delete_hooks.click(deleteRow);
+
+            let delete_character = $('a.delete_character');
+            delete_character.unbind();
+            delete_character.click(delete_character_hook);
         }
 
 
