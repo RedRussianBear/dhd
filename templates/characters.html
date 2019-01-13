@@ -13,6 +13,10 @@
             <p>
                 <a href="{% url 'character' character.code %}">edit</a>
             </p>
+            <br>
+            <p>
+                <a href="{% url 'delete_character' character.code %}">delete</a>
+            </p>
         </div>
     {% endfor %}
 

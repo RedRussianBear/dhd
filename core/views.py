@@ -205,3 +205,14 @@ def delete_object(request, object_type, object_id):
         return HttpResponse(content='Deleted.', status=200)
 
     return HttpResponse(status='403')
+
+
+@login_required
+def delete_character(request, character_id):
+    to_delete = get_object_or_404(Character, code=character_id)
+
+    if to_delete.user == request.user:
+        to_delete.delete()
+        return redirect('/character/')
+
+    return HttpResponse(status='403')

@@ -8,5 +8,6 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('delete/<str:object_type>/<int:object_id>/', views.delete_object, name='delete'),
     path('character/', views.select_character, name='select_character'),
+    path('del_character/<str:character_id>', views.delete_character, name='delete_character'),
     path('character/<str:character_id>/', views.edit_character, name='character'),
 ]
